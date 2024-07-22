@@ -1,31 +1,29 @@
 package java_project.personal_finance.service;
 
+import java.sql.Date;
+
 import java_project.personal_finance.dto.AuthenticationDto;
 import java_project.personal_finance.dto.LoginResponseDto;
 import java_project.personal_finance.dto.RegisterDto;
 import java_project.personal_finance.model.UserModel;
 import java_project.personal_finance.repository.UserRepository;
 import java_project.personal_finance.security.TokenService;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.validation.Valid;
 
-import java.util.Date;
-
 @Service
-public class AuthorizationService implements UserDetailsService {
-
+public class AuthorizationService implements UserDetailsService{
     @Autowired
     private ApplicationContext context;
 
