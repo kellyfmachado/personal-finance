@@ -5,15 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.UUID;
 
+@Entity
 @Getter
 @Setter
-@Entity
 public class TransactionModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
     private Date date;
     private Double amount;
     private String type;
@@ -31,6 +32,5 @@ public class TransactionModel {
     public void setCategory(CategoryModel categoryModel) {
         this.categoryModel = categoryModel;
     }
-
 }
 
