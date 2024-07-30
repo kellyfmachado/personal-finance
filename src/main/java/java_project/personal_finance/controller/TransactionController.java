@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("transaction")
@@ -30,7 +29,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteTransaction(UUID id){
+    public ResponseEntity<Object> deleteTransaction(Long id){
         transactionService.deleteTransaction(id);
         return ResponseEntity.ok().body("Transaction deleted");
     }

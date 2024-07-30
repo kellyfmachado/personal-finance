@@ -11,7 +11,7 @@ import java.util.UUID;
 @Setter
 public class UpdateTransactionDto {
     @NotNull
-    UUID id;
+    Long id;
     @NotNull
     Date date;
     @NotNull
@@ -19,7 +19,7 @@ public class UpdateTransactionDto {
     @NotNull
     String type;
     @NotNull
-    UUID categoryId;
+    Long categoryId;
     @NotNull
     String description;
 }

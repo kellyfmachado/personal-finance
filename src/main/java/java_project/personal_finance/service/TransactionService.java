@@ -3,17 +3,23 @@ package java_project.personal_finance.service;
 import java_project.personal_finance.dto.UpdateTransactionDto;
 import java_project.personal_finance.model.CategoryModel;
 import java_project.personal_finance.model.TransactionModel;
+import java_project.personal_finance.model.UserModel;
 import java_project.personal_finance.repository.CategoryRepository;
 import java_project.personal_finance.repository.TransactionRepository;
+import java_project.personal_finance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class TransactionService {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -22,6 +28,10 @@ public class TransactionService {
     private CategoryRepository categoryRepository;
 
     public void addTransaction(TransactionModel transactionModel){
+        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserModel user = (UserModel) userRepository.findByEmail(userEmail);
+        transactionModel.setUserModel(user);
         transactionRepository.save(transactionModel);
     }
 
@@ -50,10 +60,12 @@ public class TransactionService {
     }
 
     public List<TransactionModel> listAll(){
-        return transactionRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserModel userModel = (UserModel) authentication.getPrincipal();
+        return transactionRepository.findByUserModel(userModel);
     }
 
-    public void deleteTransaction(UUID id){
+    public void deleteTransaction(Long id){
         if (transactionRepository.existsById(id)){
             transactionRepository.deleteById(id);
         }
