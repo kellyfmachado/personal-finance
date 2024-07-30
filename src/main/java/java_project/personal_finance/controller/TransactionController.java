@@ -28,13 +28,13 @@ public class TransactionController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteTransaction(Long id){
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> deleteTransaction(@PathVariable Long id){
         transactionService.deleteTransaction(id);
         return ResponseEntity.ok().body("Transaction deleted");
     }
 
-    @GetMapping("/listAll")
+    @GetMapping("/list")
     public ResponseEntity<List<TransactionModel>> listAll(){
         return ResponseEntity.ok(transactionService.listAll());
     }

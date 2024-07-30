@@ -22,7 +22,7 @@ public class UserController {
         return ResponseEntity.ok().body("User deleted");
     }
 
-    @GetMapping("/listAll")
+    @GetMapping("/list")
     public ResponseEntity<List<UserModel>> listAll(){
         return ResponseEntity.ok(userService.listAll());
     }

@@ -22,10 +22,10 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public void addCategory(CategoryModel categoryModel){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+/*        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserModel user = (UserModel) userRepository.findByEmail(userEmail);
-        categoryModel.setUserModel(user);
+        categoryModel.setUserModel(user);*/
         categoryRepository.save(categoryModel);
     }
 
@@ -44,9 +44,10 @@ public class CategoryService {
     }
 
     public List<CategoryModel> listAll(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+/*        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserModel userModel = (UserModel) authentication.getPrincipal();
-        return categoryRepository.findByUserModel(userModel);
+        return categoryRepository.findByUserModel(userModel);*/
+        return categoryRepository.findAll();
     }
 
 }

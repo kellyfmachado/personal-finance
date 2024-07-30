@@ -28,13 +28,13 @@ public class CategoryController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteCategory(Long id){
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> deleteCategory(@PathVariable Long id){
         categoryService.deleteCategory(id);
         return ResponseEntity.ok().body("Category deleted");
     }
 
-    @GetMapping("/listAll")
+    @GetMapping("/list")
     public ResponseEntity<List<CategoryModel>> listAll(){
         return ResponseEntity.ok(categoryService.listAll());
     }

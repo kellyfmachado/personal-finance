@@ -1,5 +1,6 @@
 package java_project.personal_finance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,4 @@ public class CategoryModel {
     private Long id;
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserModel userModel;
 }

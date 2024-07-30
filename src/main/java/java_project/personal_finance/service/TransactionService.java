@@ -28,10 +28,6 @@ public class TransactionService {
     private CategoryRepository categoryRepository;
 
     public void addTransaction(TransactionModel transactionModel){
-        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName();
-        UserModel user = (UserModel) userRepository.findByEmail(userEmail);
-        transactionModel.setUserModel(user);
         transactionRepository.save(transactionModel);
     }
 
@@ -60,9 +56,7 @@ public class TransactionService {
     }
 
     public List<TransactionModel> listAll(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserModel userModel = (UserModel) authentication.getPrincipal();
-        return transactionRepository.findByUserModel(userModel);
+        return transactionRepository.findAll();
     }
 
     public void deleteTransaction(Long id){

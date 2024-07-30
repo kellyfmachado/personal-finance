@@ -3,6 +3,7 @@ package java_project.personal_finance.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 
@@ -20,8 +21,10 @@ public class TransactionModel {
     @ManyToOne
     private CategoryModel categoryModel;
     private String description;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private UserModel userModel;
 
     public CategoryModel getCategory() {
