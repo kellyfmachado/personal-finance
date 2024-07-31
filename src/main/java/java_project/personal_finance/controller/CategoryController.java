@@ -1,6 +1,6 @@
 package java_project.personal_finance.controller;
 
-import java_project.personal_finance.dto.UpdateCategoryDto;
+import java_project.personal_finance.dto.CategoryDto;
 import java_project.personal_finance.model.CategoryModel;
 import java_project.personal_finance.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,8 @@ public class CategoryController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Object> updateCategory (@RequestBody UpdateCategoryDto updateCategoryDto){
-        categoryService.updateCategory(updateCategoryDto);
+    public ResponseEntity<Object> updateCategory (@RequestBody CategoryDto categoryDto){
+        categoryService.updateCategory(categoryDto);
         return ResponseEntity.ok().build();
     }
 

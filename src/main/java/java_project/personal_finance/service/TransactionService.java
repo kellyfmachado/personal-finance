@@ -1,15 +1,12 @@
 package java_project.personal_finance.service;
 
-import java_project.personal_finance.dto.UpdateTransactionDto;
+import java_project.personal_finance.dto.TransactionDto;
 import java_project.personal_finance.model.CategoryModel;
 import java_project.personal_finance.model.TransactionModel;
-import java_project.personal_finance.model.UserModel;
 import java_project.personal_finance.repository.CategoryRepository;
 import java_project.personal_finance.repository.TransactionRepository;
 import java_project.personal_finance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,19 +28,19 @@ public class TransactionService {
         transactionRepository.save(transactionModel);
     }
 
-    public void updateTransaction(UpdateTransactionDto updateTransactionDto){
-        Optional<TransactionModel> optionalTransaction = transactionRepository.findById(updateTransactionDto.getId());
+    public void updateTransaction(TransactionDto transactionDto){
+        Optional<TransactionModel> optionalTransaction = transactionRepository.findById(transactionDto.getId());
 
         if (optionalTransaction.isPresent()) {
             TransactionModel transaction = optionalTransaction.get();
-            transaction.setDate(updateTransactionDto.getDate());
-            transaction.setAmount(updateTransactionDto.getAmount());
-            transaction.setType(updateTransactionDto.getType());
-            transaction.setDescription(updateTransactionDto.getDescription());
+            transaction.setDate(transactionDto.getDate());
+            transaction.setAmount(transactionDto.getAmount());
+            transaction.setType(transactionDto.getType());
+            transaction.setDescription(transactionDto.getDescription());
 
-            Optional<CategoryModel> optionalCategory = categoryRepository.findById(updateTransactionDto.getCategoryId());
+            Optional<CategoryModel> optionalCategory = categoryRepository.findById(transactionDto.getCategoryId());
             if (optionalCategory.isPresent()) {
-                transaction.setCategory(optionalCategory.get());
+                transaction.setCategoryModel(optionalCategory.get());
             } else {
                 throw new RuntimeException("Category not found");
             }

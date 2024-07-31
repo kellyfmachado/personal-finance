@@ -1,13 +1,10 @@
 package java_project.personal_finance.service;
 
-import java_project.personal_finance.dto.UpdateCategoryDto;
+import java_project.personal_finance.dto.CategoryDto;
 import java_project.personal_finance.model.CategoryModel;
-import java_project.personal_finance.model.UserModel;
 import java_project.personal_finance.repository.CategoryRepository;
 import java_project.personal_finance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,12 +26,12 @@ public class CategoryService {
         categoryRepository.save(categoryModel);
     }
 
-    public void updateCategory(UpdateCategoryDto updateCategoryDto) {
+    public void updateCategory(CategoryDto categoryDto) {
 
-        CategoryModel existingCategory = categoryRepository.findById(updateCategoryDto.getId())
+        CategoryModel existingCategory = categoryRepository.findById(categoryDto.getId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
-        existingCategory.setName(updateCategoryDto.getName());
+        existingCategory.setName(categoryDto.getName());
 
         categoryRepository.save(existingCategory);
     }

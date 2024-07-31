@@ -6,10 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateCategoryDto {
+public class CategoryDto {
     @NotNull
     Long id;
     @NotNull
     String name;
-
 }

@@ -1,6 +1,6 @@
 package java_project.personal_finance.controller;
 
-import java_project.personal_finance.dto.UpdateTransactionDto;
+import java_project.personal_finance.dto.TransactionDto;
 import java_project.personal_finance.model.TransactionModel;
 import java_project.personal_finance.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,8 @@ public class TransactionController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Object> updateTransaction (@RequestBody UpdateTransactionDto updateTransactionDto){
-        transactionService.updateTransaction(updateTransactionDto);
+    public ResponseEntity<Object> updateTransaction (@RequestBody TransactionDto transactionDto){
+        transactionService.updateTransaction(transactionDto);
         return ResponseEntity.ok().build();
     }
 

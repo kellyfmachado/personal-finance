@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Getter
 @Setter
-public class UpdateTransactionDto {
+public class TransactionDto {
     @NotNull
     Long id;
     @NotNull

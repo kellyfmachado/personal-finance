@@ -18,21 +18,15 @@ public class TransactionModel {
     private Date date;
     private Double amount;
     private String type;
-    @ManyToOne
-    private CategoryModel categoryModel;
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryModel categoryModel;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private UserModel userModel;
 
-    public CategoryModel getCategory() {
-        return categoryModel;
-    }
-
-    public void setCategory(CategoryModel categoryModel) {
-        this.categoryModel = categoryModel;
-    }
 }
 
