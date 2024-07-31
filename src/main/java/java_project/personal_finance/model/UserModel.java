@@ -36,6 +36,10 @@ public class UserModel implements UserDetails {
     @JsonIgnore
     private List<TransactionModel> transactionModels;
 
+    @OneToMany(mappedBy = "userModel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<CategoryModel> categoryModels;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;

@@ -26,6 +26,7 @@ public class TransactionModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private UserModel userModel;
 
 }

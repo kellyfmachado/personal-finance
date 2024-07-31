@@ -9,4 +9,5 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryModel, Long> {
+    List<CategoryModel> findByUserModel(UserModel userModel);
 }

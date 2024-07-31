@@ -21,4 +21,8 @@ public class CategoryModel {
     @JsonIgnore
     private List<TransactionModel> transactionModels;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private UserModel userModel;
 }
