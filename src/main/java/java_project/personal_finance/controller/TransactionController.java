@@ -39,4 +39,14 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.listAll());
     }
 
+    @GetMapping("/listByCategory/{id}")
+    public ResponseEntity<List<TransactionModel>> listByCategory(@PathVariable Long id){
+        return ResponseEntity.ok(transactionService.listByCategory(id));
+    }
+
+/*    @GetMapping("/countByCategory/{id}")
+    public ResponseEntity<Double> amountByCategory(@PathVariable Long id){
+        return ResponseEntity.ok(transactionService.amountByCategory(id));
+    }*/
+
 }

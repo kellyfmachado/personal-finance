@@ -16,6 +16,7 @@ public class CategoryModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private Double amount;
 
     @OneToMany(mappedBy = "categoryModel", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

@@ -26,6 +26,7 @@ public class CategoryService {
         String userEmail = authentication.getName();
         UserModel user = (UserModel) userRepository.findByEmail(userEmail);
         categoryModel.setUserModel(user);
+        categoryModel.setAmount(0.00);
         categoryRepository.save(categoryModel);
     }
 

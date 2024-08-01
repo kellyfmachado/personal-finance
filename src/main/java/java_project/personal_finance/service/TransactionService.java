@@ -33,6 +33,18 @@ public class TransactionService {
         UserModel user = (UserModel) userRepository.findByEmail(userEmail);
         transactionModel.setUserModel(user);
         transactionRepository.save(transactionModel);
+
+/*        CategoryModel categoryModel = transactionModel.getCategoryModel();
+
+        if(transactionModel.getType().equals("saque")){
+            if(transactionModel.getAmount() > categoryModel.getAmount()){
+                categoryModel.setAmount(categoryModel.getAmount()-transactionModel.getAmount());
+            } else {
+                throw new RuntimeException("Transaction not available");
+            }
+        } else {
+            categoryModel.setAmount(categoryModel.getAmount()+transactionModel.getAmount());
+        }*/
     }
 
     public void updateTransaction(TransactionDto transactionDto){
@@ -64,6 +76,39 @@ public class TransactionService {
         UserModel userModel = (UserModel) authentication.getPrincipal();
         return transactionRepository.findByUserModel(userModel);
     }
+
+    public List<TransactionModel> listByCategory(Long id){
+        Optional<CategoryModel> optionalCategory = categoryRepository.findById(id);
+        if (optionalCategory.isPresent()) {
+            return transactionRepository.findByCategoryModel(optionalCategory);
+        } else {
+            throw new RuntimeException("Category not found");
+        }
+    }
+
+/*    public Double amountByCategory(Long id){
+        Optional<CategoryModel> optionalCategory = categoryRepository.findById(id);
+
+        if (optionalCategory.isPresent()) {
+
+            List<TransactionModel> transactions = transactionRepository.findByCategoryModel(optionalCategory);
+
+            Double totalValue = 0.00;
+            for (TransactionModel transaction : transactions) {
+
+                if (transaction.getType().equals("saque")) {
+                    totalValue -= transaction.getAmount();
+                } else {
+                    totalValue += transaction.getAmount();
+                }
+
+            }
+            return totalValue;
+
+        } else {
+            throw new RuntimeException("Category not found");
+        }
+    }*/
 
     public void deleteTransaction(Long id){
         if (transactionRepository.existsById(id)){
