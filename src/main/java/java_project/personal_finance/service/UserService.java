@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -21,7 +20,7 @@ public class UserService {
 
     public void deleteUser (){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName(); // Obter o email do usuário autenticado
+        String userEmail = authentication.getName();
 
         UserModel userModel = (UserModel) userRepository.findByEmail(userEmail);
         userRepository.deleteById(userModel.getId());
@@ -33,7 +32,7 @@ public class UserService {
 
     public void updateUser(UserDto userDto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName(); // Obter o email do usuário autenticado
+        String userEmail = authentication.getName();
 
         UserModel userModel = (UserModel) userRepository.findByEmail(userEmail);
         userModel.setName(userDto.getName());

@@ -32,19 +32,34 @@ public class TransactionService {
         String userEmail = authentication.getName();
         UserModel user = (UserModel) userRepository.findByEmail(userEmail);
         transactionModel.setUserModel(user);
-        transactionRepository.save(transactionModel);
 
-/*        CategoryModel categoryModel = transactionModel.getCategoryModel();
+        Optional<CategoryModel> categoryModel = categoryRepository.findById(transactionModel.getCategoryModel().getId());
 
-        if(transactionModel.getType().equals("saque")){
-            if(transactionModel.getAmount() > categoryModel.getAmount()){
-                categoryModel.setAmount(categoryModel.getAmount()-transactionModel.getAmount());
-            } else {
-                throw new RuntimeException("Transaction not available");
+        if (categoryModel.isPresent()){
+
+            if (categoryModel.get().getAmount() == null) {
+                categoryModel.get().setAmount(0.00);
             }
+
+            if(transactionModel.getType().equals("saque")){
+
+                if(transactionModel.getAmount() <= categoryModel.get().getAmount()){
+                    categoryModel.get().setAmount(categoryModel.get().getAmount()-transactionModel.getAmount());
+                } else {
+                    throw new RuntimeException("Transaction not available");
+                }
+
+            } else {
+                categoryModel.get().setAmount(categoryModel.get().getAmount()+transactionModel.getAmount());
+            }
+
         } else {
-            categoryModel.setAmount(categoryModel.getAmount()+transactionModel.getAmount());
-        }*/
+            throw new RuntimeException("Category not found");
+        }
+
+        categoryRepository.save(categoryModel.get());
+
+        transactionRepository.save(transactionModel);
     }
 
     public void updateTransaction(TransactionDto transactionDto){
@@ -58,6 +73,7 @@ public class TransactionService {
             transaction.setDescription(transactionDto.getDescription());
 
             Optional<CategoryModel> optionalCategory = categoryRepository.findById(transactionDto.getCategoryId());
+
             if (optionalCategory.isPresent()) {
                 transaction.setCategoryModel(optionalCategory.get());
             } else {
@@ -85,30 +101,6 @@ public class TransactionService {
             throw new RuntimeException("Category not found");
         }
     }
-
-/*    public Double amountByCategory(Long id){
-        Optional<CategoryModel> optionalCategory = categoryRepository.findById(id);
-
-        if (optionalCategory.isPresent()) {
-
-            List<TransactionModel> transactions = transactionRepository.findByCategoryModel(optionalCategory);
-
-            Double totalValue = 0.00;
-            for (TransactionModel transaction : transactions) {
-
-                if (transaction.getType().equals("saque")) {
-                    totalValue -= transaction.getAmount();
-                } else {
-                    totalValue += transaction.getAmount();
-                }
-
-            }
-            return totalValue;
-
-        } else {
-            throw new RuntimeException("Category not found");
-        }
-    }*/
 
     public void deleteTransaction(Long id){
         if (transactionRepository.existsById(id)){
