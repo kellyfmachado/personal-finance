@@ -5,10 +5,7 @@ import java_project.personal_finance.dto.AuthenticationDto;
 import java_project.personal_finance.dto.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import jakarta.validation.Valid;
@@ -24,7 +21,6 @@ public class AuthController {
     public ResponseEntity<Object> login(@RequestBody @Valid AuthenticationDto authenticationDto){
         return authorizationService.login(authenticationDto);
     }
-
 
     @PostMapping("/register")
     public ResponseEntity<Object> register (@RequestBody RegisterDto registerDto){
