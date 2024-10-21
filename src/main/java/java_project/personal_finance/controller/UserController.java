@@ -19,7 +19,7 @@ public class UserController {
     @DeleteMapping("/delete")
     public ResponseEntity<Object> deleteUser(){
         userService.deleteUser();
-        return ResponseEntity.ok().body("User deleted");
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/list")

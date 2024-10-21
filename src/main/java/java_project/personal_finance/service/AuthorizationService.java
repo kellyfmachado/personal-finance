@@ -56,6 +56,7 @@ public class AuthorizationService implements UserDetailsService{
 
         UserModel newUser = new UserModel(registerDto.email(), encryptedPassword, registerDto.role());
         newUser.setCreatedAt(new Date(System.currentTimeMillis()));
+        newUser.setName(registerDto.name());
         this.userRepository.save(newUser);
         return ResponseEntity.ok().build();
     }
