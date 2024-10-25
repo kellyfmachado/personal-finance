@@ -7,10 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDto {
-    @NotNull
     String name;
-    @NotNull
     String email;
-    @NotNull
     String password;
 }

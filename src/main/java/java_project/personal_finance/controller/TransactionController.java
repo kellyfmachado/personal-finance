@@ -19,7 +19,7 @@ public class TransactionController {
     @PostMapping("/add")
     public ResponseEntity<Object> addTransaction (@RequestBody TransactionModel transactionModel){
         transactionService.addTransaction(transactionModel);
-        return ResponseEntity.ok().body("Transaction added");
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/update")
@@ -31,7 +31,7 @@ public class TransactionController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteTransaction(@PathVariable Long id){
         transactionService.deleteTransaction(id);
-        return ResponseEntity.ok().body("Transaction deleted");
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/list")

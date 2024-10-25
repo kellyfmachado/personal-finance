@@ -19,7 +19,7 @@ public class CategoryController {
     @PostMapping("/add")
     public ResponseEntity<Object> addCategory (@RequestBody CategoryModel categoryModel){
         categoryService.addCategory(categoryModel);
-        return ResponseEntity.ok().body("Category added");
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/update")
@@ -31,7 +31,7 @@ public class CategoryController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteCategory(@PathVariable Long id){
         categoryService.deleteCategory(id);
-        return ResponseEntity.ok().body("Category deleted");
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/list")

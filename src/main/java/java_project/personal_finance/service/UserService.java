@@ -35,9 +35,19 @@ public class UserService {
         String userEmail = authentication.getName();
 
         UserModel userModel = (UserModel) userRepository.findByEmail(userEmail);
-        userModel.setName(userDto.getName());
-        userModel.setEmail(userDto.getEmail());
-        userModel.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword())); // Encrypt the new password
+
+        if (!userDto.getName().isEmpty()){
+            userModel.setName(userDto.getName());
+        }
+
+        if (!userDto.getEmail().isEmpty()){
+            userModel.setEmail(userDto.getEmail());
+        }
+
+        if (!userDto.getPassword().isEmpty()){
+            userModel.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword())); // Encrypt the new password
+        }
+
         userModel.setUpdatedAt(new Date());
         userRepository.save(userModel);
     }
