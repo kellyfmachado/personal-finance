@@ -26,6 +26,13 @@ public class UserService {
         userRepository.deleteById(userModel.getId());
     }
 
+    public UserModel authenticatedUser (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+
+        return (UserModel) userRepository.findByEmail(userEmail);
+    }
+
     public List<UserModel> listAll(){
         return userRepository.findAll();
     }

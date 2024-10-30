@@ -27,6 +27,11 @@ public class UserController {
         return ResponseEntity.ok(userService.listAll());
     }
 
+    @GetMapping("/authenticated")
+    public ResponseEntity<UserModel> authenticatedUser(){
+        return ResponseEntity.ok(userService.authenticatedUser());
+    }
+
     @PutMapping("/update")
     public ResponseEntity<Object> updateUser(@RequestBody UserDto userDto) {
         userService.updateUser(userDto);
