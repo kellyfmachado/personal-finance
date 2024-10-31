@@ -104,6 +104,15 @@ public class TransactionService {
 
     public void deleteTransaction(Long id){
         if (transactionRepository.existsById(id)){
+            Optional<TransactionModel> transactionModel = transactionRepository.findById(id);
+            if (transactionModel.isPresent()) {
+                Optional<CategoryModel> categoryModel = categoryRepository.findById(transactionModel.get().getCategoryModel().getId());
+                if (categoryModel.isPresent()) {
+                   categoryModel.get().setAmount(categoryModel.get().getAmount()-transactionModel.get().getAmount());
+                   categoryRepository.save(categoryModel.get());
+                }
+            }
+
             transactionRepository.deleteById(id);
         }
         else {

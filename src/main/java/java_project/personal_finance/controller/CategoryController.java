@@ -4,6 +4,7 @@ import java_project.personal_finance.dto.CategoryDto;
 import java_project.personal_finance.model.CategoryModel;
 import java_project.personal_finance.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +36,9 @@ public class CategoryController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<CategoryModel>> listAll(){
-        return ResponseEntity.ok(categoryService.listAll());
+    public ResponseEntity<Page<CategoryModel>> listAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<CategoryModel> categories = categoryService.listAll(page, size);
+        return ResponseEntity.ok(categories);
     }
 
 }

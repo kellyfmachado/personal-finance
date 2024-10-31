@@ -6,6 +6,9 @@ import java_project.personal_finance.model.UserModel;
 import java_project.personal_finance.repository.CategoryRepository;
 import java_project.personal_finance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -35,7 +38,9 @@ public class CategoryService {
         CategoryModel existingCategory = categoryRepository.findById(categoryDto.getId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
-        existingCategory.setName(categoryDto.getName());
+        if(!categoryDto.getName().isEmpty()){
+            existingCategory.setName(categoryDto.getName());
+        }
 
         categoryRepository.save(existingCategory);
     }
@@ -44,10 +49,11 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    public List<CategoryModel> listAll(){
+    public Page<CategoryModel> listAll(int page, int size){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserModel userModel = (UserModel) authentication.getPrincipal();
-        return categoryRepository.findByUserModel(userModel);
+        Pageable pageable = PageRequest.of(page, size);
+        return categoryRepository.findByUserModel(userModel, pageable);
     }
 
 }
