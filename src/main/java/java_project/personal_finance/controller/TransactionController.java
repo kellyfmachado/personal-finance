@@ -1,9 +1,11 @@
 package java_project.personal_finance.controller;
 
 import java_project.personal_finance.dto.TransactionDto;
+import java_project.personal_finance.model.CategoryModel;
 import java_project.personal_finance.model.TransactionModel;
 import java_project.personal_finance.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,13 +37,15 @@ public class TransactionController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<TransactionModel>> listAll(){
-        return ResponseEntity.ok(transactionService.listAll());
+    public ResponseEntity<Page<TransactionModel>> list(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10000") int size){
+        Page<TransactionModel> transactions = transactionService.list(page, size);
+        return ResponseEntity.ok(transactions);
     }
 
     @GetMapping("/listByCategory/{id}")
-    public ResponseEntity<List<TransactionModel>> listByCategory(@PathVariable Long id){
-        return ResponseEntity.ok(transactionService.listByCategory(id));
+    public ResponseEntity<Page<TransactionModel>> listByCategory(@PathVariable Long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size){
+        Page<TransactionModel> transactionsByCategory = transactionService.listByCategory(id, page, size);
+        return ResponseEntity.ok(transactionsByCategory);
     }
 
 }

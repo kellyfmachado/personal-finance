@@ -49,7 +49,7 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    public Page<CategoryModel> listAll(int page, int size){
+    public Page<CategoryModel> list(int page, int size){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserModel userModel = (UserModel) authentication.getPrincipal();
         Pageable pageable = PageRequest.of(page, size);

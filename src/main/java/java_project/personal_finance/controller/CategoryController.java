@@ -36,8 +36,8 @@ public class CategoryController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Page<CategoryModel>> listAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
-        Page<CategoryModel> categories = categoryService.listAll(page, size);
+    public ResponseEntity<Page<CategoryModel>> list(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "18") int size){
+        Page<CategoryModel> categories = categoryService.list(page, size);
         return ResponseEntity.ok(categories);
     }
 

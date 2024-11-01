@@ -8,6 +8,9 @@ import java_project.personal_finance.repository.CategoryRepository;
 import java_project.personal_finance.repository.TransactionRepository;
 import java_project.personal_finance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -68,16 +71,24 @@ public class TransactionService {
         if (optionalTransaction.isPresent()) {
             TransactionModel transaction = optionalTransaction.get();
             transaction.setDate(transactionDto.getDate());
-            transaction.setAmount(transactionDto.getAmount());
-            transaction.setType(transactionDto.getType());
-            transaction.setDescription(transactionDto.getDescription());
+            if(transactionDto.getAmount()!=0) {
+                transaction.setAmount(transactionDto.getAmount());
+            }
+            if(!transactionDto.getType().isEmpty()) {
+                transaction.setType(transactionDto.getType());
+            }
+            if(!transactionDto.getDescription().isEmpty()) {
+                transaction.setDescription(transactionDto.getDescription());
+            }
 
-            Optional<CategoryModel> optionalCategory = categoryRepository.findById(transactionDto.getCategoryId());
+            if(transactionDto.getCategoryId()!=0){
+                Optional<CategoryModel> optionalCategory = categoryRepository.findById(transactionDto.getCategoryId());
 
-            if (optionalCategory.isPresent()) {
-                transaction.setCategoryModel(optionalCategory.get());
-            } else {
-                throw new RuntimeException("Category not found");
+                if (optionalCategory.isPresent()) {
+                    transaction.setCategoryModel(optionalCategory.get());
+                } else {
+                    throw new RuntimeException("Category not found");
+                }
             }
 
             transactionRepository.save(transaction);
@@ -87,16 +98,18 @@ public class TransactionService {
         }
     }
 
-    public List<TransactionModel> listAll(){
+    public Page<TransactionModel> list(int page, int size){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserModel userModel = (UserModel) authentication.getPrincipal();
-        return transactionRepository.findByUserModel(userModel);
+        Pageable pageable = PageRequest.of(page, size);
+        return transactionRepository.findByUserModel(userModel, pageable);
     }
 
-    public List<TransactionModel> listByCategory(Long id){
+    public Page<TransactionModel> listByCategory(Long id,  int page, int size){
         Optional<CategoryModel> optionalCategory = categoryRepository.findById(id);
+        Pageable pageable = PageRequest.of(page, size);
         if (optionalCategory.isPresent()) {
-            return transactionRepository.findByCategoryModel(optionalCategory);
+            return transactionRepository.findByCategoryModel(optionalCategory, pageable);
         } else {
             throw new RuntimeException("Category not found");
         }
