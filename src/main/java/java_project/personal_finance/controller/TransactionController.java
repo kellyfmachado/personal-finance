@@ -43,7 +43,7 @@ public class TransactionController {
     }
 
     @GetMapping("/listByCategory/{id}")
-    public ResponseEntity<Page<TransactionModel>> listByCategory(@PathVariable Long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size){
+    public ResponseEntity<Page<TransactionModel>> listByCategory(@PathVariable Long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10000") int size){
         Page<TransactionModel> transactionsByCategory = transactionService.listByCategory(id, page, size);
         return ResponseEntity.ok(transactionsByCategory);
     }
