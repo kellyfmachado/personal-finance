@@ -1,6 +1,7 @@
 package java_project.personal_finance.dto;
 
 import jakarta.validation.constraints.NotNull;
+import java_project.personal_finance.model.CategoryModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,7 @@ public class TransactionDto {
     @NotNull
     String type;
     @NotNull
-    Long categoryId;
+    CategoryModel categoryModel;
     @NotNull
     String description;
 }

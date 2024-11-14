@@ -44,7 +44,7 @@ public class TransactionService {
                 categoryModel.get().setAmount(0.00);
             }
 
-            if(transactionModel.getType().equals("saque")){
+            if(transactionModel.getType().equals("withdraw")){
 
                 if(transactionModel.getAmount() <= categoryModel.get().getAmount()){
                     categoryModel.get().setAmount(categoryModel.get().getAmount()-transactionModel.getAmount());
@@ -69,26 +69,46 @@ public class TransactionService {
         Optional<TransactionModel> optionalTransaction = transactionRepository.findById(transactionDto.getId());
 
         if (optionalTransaction.isPresent()) {
+
             TransactionModel transaction = optionalTransaction.get();
             transaction.setDate(transactionDto.getDate());
-            if(transactionDto.getAmount()!=0) {
-                transaction.setAmount(transactionDto.getAmount());
+
+            if(transaction.getType().equals("withdraw")){
+                transaction.getCategoryModel().setAmount(transaction.getCategoryModel().getAmount()+transaction.getAmount());
+                categoryRepository.save(transaction.getCategoryModel());
             }
-            if(!transactionDto.getType().isEmpty()) {
-                transaction.setType(transactionDto.getType());
-            }
-            if(!transactionDto.getDescription().isEmpty()) {
-                transaction.setDescription(transactionDto.getDescription());
+            else {
+                transaction.getCategoryModel().setAmount(transaction.getCategoryModel().getAmount()-transaction.getAmount());
+                categoryRepository.save(transaction.getCategoryModel());
             }
 
-            if(transactionDto.getCategoryId()!=0){
-                Optional<CategoryModel> optionalCategory = categoryRepository.findById(transactionDto.getCategoryId());
+            transaction.setType(transactionDto.getType());
+            transaction.setAmount(transactionDto.getAmount());
+            transaction.setDescription(transactionDto.getDescription());
+
+            if(transactionDto.getCategoryModel().getId()!=0){
+                Optional<CategoryModel> optionalCategory = categoryRepository.findById(transactionDto.getCategoryModel().getId());
 
                 if (optionalCategory.isPresent()) {
                     transaction.setCategoryModel(optionalCategory.get());
                 } else {
                     throw new RuntimeException("Category not found");
                 }
+
+                if(transaction.getType().equals("withdraw")){
+
+                    if(transaction.getAmount() <= optionalCategory.get().getAmount()){
+                        optionalCategory.get().setAmount(optionalCategory.get().getAmount()-transaction.getAmount());
+                    } else {
+                        throw new RuntimeException("Transaction not available");
+                    }
+
+                } else {
+                    optionalCategory.get().setAmount(optionalCategory.get().getAmount()+transaction.getAmount());
+                }
+
+                categoryRepository.save(optionalCategory.get());
+
             }
 
             transactionRepository.save(transaction);
@@ -121,8 +141,14 @@ public class TransactionService {
             if (transactionModel.isPresent()) {
                 Optional<CategoryModel> categoryModel = categoryRepository.findById(transactionModel.get().getCategoryModel().getId());
                 if (categoryModel.isPresent()) {
-                   categoryModel.get().setAmount(categoryModel.get().getAmount()-transactionModel.get().getAmount());
-                   categoryRepository.save(categoryModel.get());
+                   if(transactionModel.get().getType().equals("withdraw")){
+                       categoryModel.get().setAmount(categoryModel.get().getAmount()+transactionModel.get().getAmount());
+                       categoryRepository.save(categoryModel.get());
+                   }
+                   else {
+                       categoryModel.get().setAmount(categoryModel.get().getAmount()-transactionModel.get().getAmount());
+                       categoryRepository.save(categoryModel.get());
+                   }
                 }
             }
 
