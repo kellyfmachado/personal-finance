@@ -107,7 +107,7 @@ CREATE DATABASE personal_finance;
 CREATE USER finance_user WITH ENCRYPTED PASSWORD 'finance_password';
 GRANT ALL PRIVILEGES ON DATABASE personal_finance TO finance_user;
 ```  
-- Configure as credenciais no arquivo `application.properties`, no diretório `src/main/resources`:
+  - Configure as credenciais no arquivo `application.properties`, no diretório `src/main/resources`:
 ```bash  
 spring.datasource.url=jdbc:postgresql://localhost:5432/personal_finance
 spring.datasource.username=finance_user
@@ -116,7 +116,7 @@ spring.jpa.hibernate.ddl-auto=update
 ```
   **4º Passo** - Instalar dependências
   
-- No diretório do projeto, execute:
+  - No diretório do projeto, execute:
   
   ```bash  
 mvn clean install
@@ -133,5 +133,4 @@ http://localhost:8080
 ```
   **6º Passo** - Testar a API
   
-- Você pode testar os endpoints utilizando o **Postman** ou outra ferramenta de testes. 
-
+  - Você pode testar os endpoints utilizando o **Postman** ou outra ferramenta de testes. 
